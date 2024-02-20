@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "newsapp",
+    "slug": "newsapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icons/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icons/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/foreground.png",
+        "backgroundImage": "./assets/icons/background.png",
+        "monochromeImage": "./assets/icons/monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/icons.favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "36d6ed4c-3f85-4752-887c-b684e9e27087"
+      }
+    },
+    "owner": "kushendesilva",
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
