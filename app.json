@@ -2,7 +2,7 @@
   "expo": {
     "name": "newsapp",
     "slug": "newsapp",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icons/icon.png",
     "userInterfaceStyle": "light",
@@ -13,14 +13,16 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "tech.dsilva.news"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/foreground.png",
         "backgroundImage": "./assets/icons/background.png",
         "monochromeImage": "./assets/icons/monochrome.png"
-      }
+      },
+      "package": "tech.dsilva.news"
     },
     "web": {
       "favicon": "./assets/icons.favicon.png"

@@ -4,17 +4,19 @@ import { AuthNavigator } from "./AuthNavigator";
 import { AppNavigator } from "./AppNavigator";
 import { observer } from "mobx-react-lite";
 import { Colors } from "../theme";
+import { useStores } from "../models";
 
 export const RootNavigator = observer(function RootNavigator() {
-  let isAuthenticated = true;
-
   const customTheme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: Colors.background,
+      background: Colors.primary,
     },
   };
+  const {
+    authStore: { isAuthenticated },
+  } = useStores();
   return (
     <NavigationContainer theme={customTheme}>
       {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}

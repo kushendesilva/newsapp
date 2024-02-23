@@ -8,6 +8,7 @@ interface Props {
   white?: boolean;
   padding?: boolean;
   style?: ViewStyle;
+  top?: boolean;
   children: ReactNode;
 }
 
@@ -15,6 +16,7 @@ export const Screen: React.FC<Props> = ({
   centered = false,
   white = false,
   padding = false,
+  top = false,
   style,
   children,
 }) => {
@@ -23,7 +25,7 @@ export const Screen: React.FC<Props> = ({
     alignItems: centered ? "center" : "stretch",
     backgroundColor: white ? Colors.white : Colors.background,
     paddingHorizontal: padding ? 10 : 0,
-    marginTop: Constants.statusBarHeight,
+    marginTop: top ? 0 : Constants.statusBarHeight,
   };
 
   return <View style={[style, containerStyle]}>{children}</View>;

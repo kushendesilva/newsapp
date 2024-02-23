@@ -17,10 +17,7 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
   const getResult = async () => {
     setLoading(true);
     const news: any = await getNews();
-    const filteredData = news.articles.filter(
-      (article: any) => article.content !== "[Removed]"
-    );
-    setData(filteredData);
+    setData(news);
     setLoading(false);
   };
   useEffect(() => {
@@ -29,7 +26,9 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
 
   const listRef = useRef<FlatList>(null);
 
-  const separatorItem = () => <View style={styles.separator} />;
+  const separator = () => <View style={styles.separator} />;
+
+  const header = () => <View style={styles.header} />;
 
   const footer = () => (
     <View style={styles.footer}>
@@ -50,54 +49,59 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
     </View>
   );
 
-  function goToSearch() {
-    navigation.navigate("Search");
-  }
-
   return (
-    <Screen padding>
-      <StatusBar style="auto" />
+    <Screen>
+      <StatusBar style="light" />
       <Appbar style={styles.appbar}>
         <Appbar.Content titleStyle={styles.appbarTitle} title="Top Headlines" />
       </Appbar>
-      <FlatList
-        ref={listRef}
-        onRefresh={() => getResult()}
-        refreshing={loading}
-        data={data}
-        keyExtractor={(news) => news.publishedAt + news.title}
-        ListFooterComponent={footer}
-        ItemSeparatorComponent={separatorItem}
-        renderItem={({ item }) => (
-          <Card
-            mode="outlined"
-            style={styles.card}
-            onPress={() => navigation.navigate("News", item)}
-          >
-            <Card.Cover
-              source={{ uri: item.urlToImage || Constants.sampleImage }}
-            />
-            <Card.Content>
-              <Text style={styles.cardTitle} variant="titleMedium">
-                {item.title}
-              </Text>
-              <Text style={styles.cardSubtitle} variant="bodySmall">
-                {item.description}
-              </Text>
-            </Card.Content>
-          </Card>
-        )}
-      />
+      <View style={styles.container}>
+        <FlatList
+          ref={listRef}
+          onRefresh={() => getResult()}
+          refreshing={loading}
+          data={data}
+          keyExtractor={(news) => news.publishedAt + news.title}
+          ListHeaderComponent={header}
+          ListFooterComponent={footer}
+          ItemSeparatorComponent={separator}
+          renderItem={({ item }) => (
+            <Card
+              mode="outlined"
+              style={styles.card}
+              onPress={() => navigation.navigate("News", item)}
+            >
+              <Card.Cover
+                source={{ uri: item.urlToImage || Constants.sampleImage }}
+              />
+              <Card.Content>
+                <Text style={styles.cardTitle} variant="titleMedium">
+                  {item.title}
+                </Text>
+                <Text style={styles.cardSubtitle} variant="bodySmall">
+                  {item.description}
+                </Text>
+              </Card.Content>
+            </Card>
+          )}
+        />
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  appbar: { backgroundColor: Colors.background },
-  appbarTitle: { fontFamily: "Bold", textAlign: "center" },
+  appbar: {
+    backgroundColor: Colors.primary,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  appbarTitle: { fontFamily: "Bold", textAlign: "center", color: Colors.white },
   card: { backgroundColor: Colors.black },
   cardTitle: { color: Colors.white, marginTop: 10, fontFamily: "Black" },
   cardSubtitle: { color: Colors.white, marginTop: 5, fontFamily: "Light" },
+  container: { paddingHorizontal: 10, flex: 1 },
+  header: { height: 15 },
   footer: { height: 200 },
   scrollButton: { marginVertical: 10 },
   scrollText: { fontFamily: "Bold" },
