@@ -2,8 +2,9 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NewsScreen } from "../screens";
 import { TabNavigator } from "./TabNavigator";
+import { observer } from "mobx-react-lite";
 
-export function AppNavigator() {
+export const AppNavigator = observer(function AppNavigator() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
@@ -14,4 +15,4 @@ export function AppNavigator() {
       <Stack.Screen name="News" component={NewsScreen} />
     </Stack.Navigator>
   );
-}
+});

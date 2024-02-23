@@ -1,32 +1,30 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  AnimatedTabBarNavigator,
+  DotSize,
+  TabElementDisplayOptions,
+} from "react-native-animated-nav-tab-bar";
 import { Feather } from "@expo/vector-icons";
 import { DashboardScreen, SearchScreen, ProfileScreen } from "../screens";
-import Colors from "../configurations/Colors";
+import { Colors } from "../theme";
+import { observer } from "mobx-react-lite";
 
-export function TabNavigator() {
-  const Tab = createBottomTabNavigator();
-  const { bottom } = useSafeAreaInsets();
+export const TabNavigator = observer(function TabNavigator() {
+  const Tab = AnimatedTabBarNavigator();
   return (
     <Tab.Navigator
       initialRouteName="Dashboard"
-      screenOptions={{
-        headerShadowVisible: false,
-        tabBarLabelStyle: {
-          fontFamily: "SemiBold",
-          fontSize: 14,
-          top: -15,
+      tabBarOptions={{
+        style: {
+          height: 30,
         },
-        tabBarStyle: {
-          height: 85,
-          borderRadius: 50,
-          margin: 15,
-          marginBottom: 25,
-          paddingBottom: 0,
-        },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.gray,
+      }}
+      appearance={{
+        activeTabBackgrounds: Colors.primary,
+        shadow: true,
+        floating: true,
+        whenActiveShow: TabElementDisplayOptions.ICON_ONLY,
+        dotSize: DotSize.SMALL,
       }}
     >
       <Tab.Screen
@@ -34,12 +32,11 @@ export function TabNavigator() {
         component={DashboardScreen}
         options={{
           title: "Home",
-
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: any }) => (
             <Feather
               name="home"
               size={30}
-              color={focused ? Colors.primary : Colors.gray}
+              color={focused ? Colors.white : Colors.gray}
             />
           ),
         }}
@@ -49,11 +46,11 @@ export function TabNavigator() {
         component={SearchScreen}
         options={{
           title: "Search",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: any }) => (
             <Feather
               name="search"
-              size={24}
-              color={focused ? Colors.primary : Colors.gray}
+              size={30}
+              color={focused ? Colors.white : Colors.gray}
             />
           ),
         }}
@@ -63,15 +60,15 @@ export function TabNavigator() {
         component={ProfileScreen}
         options={{
           title: "Profile",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: any }) => (
             <Feather
               name="user"
-              size={24}
-              color={focused ? Colors.primary : Colors.gray}
+              size={30}
+              color={focused ? Colors.white : Colors.gray}
             />
           ),
         }}
       />
     </Tab.Navigator>
   );
-}
+});
