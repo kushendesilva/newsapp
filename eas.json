@@ -1,0 +1,43 @@
+{
+  "cli": {
+    "version": ">= 3.16.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "test": {
+      "node": "20.11.1",
+      "env": {
+        "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
+        "EXPO_PUBLIC_NEWS_API_KEY": "46397873d5834dee96a7f6a7869eee12"
+      },
+      "developmentClient": false,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview": {
+      "node": "20.11.1",
+      "env": {
+        "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
+        "EXPO_PUBLIC_NEWS_API_KEY": "46397873d5834dee96a7f6a7869eee12"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "node": "20.11.1",
+      "env": {
+        "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
+        "EXPO_PUBLIC_NEWS_API_KEY": "46397873d5834dee96a7f6a7869eee12"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

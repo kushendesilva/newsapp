@@ -20,9 +20,8 @@ export const Screen: React.FC<Props> = ({
 }) => {
   const containerStyle: ViewStyle = {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: white ? Colors.white : Colors.gray,
-    justifyContent: centered ? "center" : "flex-start",
+    alignItems: centered ? "center" : "stretch",
+    backgroundColor: white ? Colors.white : Colors.background,
     paddingHorizontal: padding ? 10 : 0,
     marginTop: Constants.statusBarHeight,
   };

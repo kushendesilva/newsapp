@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { Button, Card, Text } from "react-native-paper";
+import { Button, Card, Text, Appbar } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { useStores } from "../models";
 import { Screen } from "../components";
+import { Colors } from "../theme";
+import { Constants } from "../constants";
 
 export function DashboardScreen({ navigation }: { navigation: any }) {
   const {
@@ -15,35 +17,74 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
   const getResult = async () => {
     setLoading(true);
     const news: any = await getNews();
-    setData(news.articles);
+    const filteredData = news.articles.filter(
+      (article: any) => article.content !== "[Removed]"
+    );
+    setData(filteredData);
     setLoading(false);
   };
   useEffect(() => {
     getResult();
   }, []);
+
+  const listRef = useRef<FlatList>(null);
+
+  const separatorItem = () => <View style={styles.separator} />;
+
+  const footer = () => (
+    <View style={styles.footer}>
+      <Button
+        icon="arrow-up"
+        style={styles.scrollButton}
+        labelStyle={styles.scrollText}
+        textColor={Colors.black}
+        mode="text"
+        onPress={() => {
+          if (listRef.current) {
+            listRef.current.scrollToOffset({ offset: 0, animated: true });
+          }
+        }}
+      >
+        Scroll to Top
+      </Button>
+    </View>
+  );
+
+  function goToSearch() {
+    navigation.navigate("Search");
+  }
+
   return (
     <Screen padding>
       <StatusBar style="auto" />
+      <Appbar style={styles.appbar}>
+        <Appbar.Content titleStyle={styles.appbarTitle} title="Top Headlines" />
+      </Appbar>
       <FlatList
+        ref={listRef}
         onRefresh={() => getResult()}
         refreshing={loading}
         data={data}
         keyExtractor={(news) => news.publishedAt + news.title}
-        ListHeaderComponent={() => <View style={styles.header} />}
-        ListFooterComponent={() => <View style={styles.footer} />}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListFooterComponent={footer}
+        ItemSeparatorComponent={separatorItem}
         renderItem={({ item }) => (
-          <Card mode="outlined">
-            <Card.Cover source={{ uri: item.urlToImage }} />
+          <Card
+            mode="outlined"
+            style={styles.card}
+            onPress={() => navigation.navigate("News", item)}
+          >
+            <Card.Cover
+              source={{ uri: item.urlToImage || Constants.sampleImage }}
+            />
             <Card.Content>
-              <Text variant="titleMedium">{item.title}</Text>
-              <Text variant="bodySmall">{item.description}</Text>
+              <Text style={styles.cardTitle} variant="titleMedium">
+                {item.title}
+              </Text>
+              <Text style={styles.cardSubtitle} variant="bodySmall">
+                {item.description}
+              </Text>
             </Card.Content>
-            <Card.Actions>
-              <Button onPress={() => navigation.navigate("News", item)}>
-                More info
-              </Button>
-            </Card.Actions>
           </Card>
         )}
       />
@@ -52,7 +93,13 @@ export function DashboardScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  header: { height: 15 },
-  footer: { height: 25 },
+  appbar: { backgroundColor: Colors.background },
+  appbarTitle: { fontFamily: "Bold", textAlign: "center" },
+  card: { backgroundColor: Colors.black },
+  cardTitle: { color: Colors.white, marginTop: 10, fontFamily: "Black" },
+  cardSubtitle: { color: Colors.white, marginTop: 5, fontFamily: "Light" },
+  footer: { height: 200 },
+  scrollButton: { marginVertical: 10 },
+  scrollText: { fontFamily: "Bold" },
   separator: { height: 10 },
 });

@@ -9,6 +9,7 @@ import {
   Nunito_900Black,
   Nunito_800ExtraBold,
 } from "@expo-google-fonts/nunito";
+import { Feather } from "@expo/vector-icons";
 
 const theme = {
   ...MD3LightTheme,
@@ -28,7 +29,13 @@ export default function App() {
     return null;
   }
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider
+      theme={theme}
+      settings={{
+        //@ts-expect-error
+        icon: (props) => <Feather {...props} />,
+      }}
+    >
       <RootNavigator />
     </PaperProvider>
   );

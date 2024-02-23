@@ -8,22 +8,18 @@ import { Feather } from "@expo/vector-icons";
 import { DashboardScreen, SearchScreen, ProfileScreen } from "../screens";
 import { Colors } from "../theme";
 import { observer } from "mobx-react-lite";
+import { Text } from "react-native-paper";
 
 export const TabNavigator = observer(function TabNavigator() {
   const Tab = AnimatedTabBarNavigator();
   return (
     <Tab.Navigator
       initialRouteName="Dashboard"
-      tabBarOptions={{
-        style: {
-          height: 30,
-        },
-      }}
       appearance={{
         activeTabBackgrounds: Colors.primary,
         shadow: true,
         floating: true,
-        whenActiveShow: TabElementDisplayOptions.ICON_ONLY,
+        whenActiveShow: TabElementDisplayOptions.BOTH,
         dotSize: DotSize.SMALL,
       }}
     >
@@ -31,7 +27,17 @@ export const TabNavigator = observer(function TabNavigator() {
         name="Dashboard"
         component={DashboardScreen}
         options={{
-          title: "Home",
+          tabBarLabel: ({ focused }: { focused: any }) => (
+            <Text
+              style={{
+                color: focused ? Colors.white : Colors.gray,
+                marginHorizontal: 5,
+                fontFamily: "Bold",
+              }}
+            >
+              Home
+            </Text>
+          ),
           tabBarIcon: ({ focused }: { focused: any }) => (
             <Feather
               name="home"
@@ -46,6 +52,17 @@ export const TabNavigator = observer(function TabNavigator() {
         component={SearchScreen}
         options={{
           title: "Search",
+          tabBarLabel: ({ focused }: { focused: any }) => (
+            <Text
+              style={{
+                color: focused ? Colors.white : Colors.gray,
+                marginHorizontal: 5,
+                fontFamily: "Bold",
+              }}
+            >
+              Search
+            </Text>
+          ),
           tabBarIcon: ({ focused }: { focused: any }) => (
             <Feather
               name="search"
@@ -60,6 +77,17 @@ export const TabNavigator = observer(function TabNavigator() {
         component={ProfileScreen}
         options={{
           title: "Profile",
+          tabBarLabel: ({ focused }: { focused: any }) => (
+            <Text
+              style={{
+                color: focused ? Colors.white : Colors.gray,
+                marginHorizontal: 5,
+                fontFamily: "Bold",
+              }}
+            >
+              Profile
+            </Text>
+          ),
           tabBarIcon: ({ focused }: { focused: any }) => (
             <Feather
               name="user"

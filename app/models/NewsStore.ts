@@ -1,11 +1,12 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree";
 import { newsAPI } from "../utils/api";
+import { Constants } from "../constants";
 
 export const NewsStoreModel = types.model("NewsStore").actions(() => ({
   getNews: flow(function* () {
     try {
       const response: any = yield newsAPI.get(
-        `/top-headlines?country=us&apiKey=${process.env.EXPO_PUBLIC_NEWS_API_KEY}`
+        `/top-headlines?country=${Constants.countryCode}&apiKey=${process.env.EXPO_PUBLIC_NEWS_API_KEY}`
       );
       console.log("Fetching News:", response.status);
       return response.data;
@@ -14,12 +15,12 @@ export const NewsStoreModel = types.model("NewsStore").actions(() => ({
       throw error;
     }
   }),
-  searchNews: flow(function* (term: string) {
+  searchNews: flow(function* (term: string | null) {
     try {
       const response: any = yield newsAPI.get(
         `everything?q=${term}&apiKey=${process.env.EXPO_PUBLIC_NEWS_API_KEY}`
       );
-
+      console.log("Searching News:", response.status);
       return response.data;
     } catch (error) {
       console.log("Error searching News", error);
