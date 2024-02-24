@@ -4,24 +4,29 @@
   },
   "build": {
     "development": {
+      "node": "20.11.1",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://192.168.1.3:5250",
+        "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
+        "EXPO_PUBLIC_NEWS_API_KEY": "31d59454c194449eb2ed8c7c198ae46e"
+      },
       "developmentClient": true,
       "distribution": "internal"
     },
     "test": {
       "node": "20.11.1",
       "env": {
+        "EXPO_PUBLIC_API_URL": "http://192.168.1.3:5250",
         "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
         "EXPO_PUBLIC_NEWS_API_KEY": "31d59454c194449eb2ed8c7c198ae46e"
       },
       "developmentClient": false,
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
+      "distribution": "internal"
     },
     "preview": {
       "node": "20.11.1",
       "env": {
+        "EXPO_PUBLIC_API_URL": "http://192.168.1.3:5250",
         "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
         "EXPO_PUBLIC_NEWS_API_KEY": "31d59454c194449eb2ed8c7c198ae46e"
       },
@@ -32,6 +37,7 @@
     "production": {
       "node": "20.11.1",
       "env": {
+        "EXPO_PUBLIC_API_URL": "http://192.168.1.3:5250",
         "EXPO_PUBLIC_NEWS_API_URL": "https://newsapi.org/v2",
         "EXPO_PUBLIC_NEWS_API_KEY": "46397873d5834dee96a7f6a7869eee12"
       }

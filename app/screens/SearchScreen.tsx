@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, ScrollView, FlatList, StyleSheet } from "react-native";
-import { Chip, Card, Text, Searchbar, Appbar } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Chip,
+  Card,
+  Text,
+  Searchbar,
+} from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { useStores } from "../models";
 import { Colors } from "../theme";
@@ -71,52 +77,62 @@ export function SearchScreen({ navigation }: { navigation: any }) {
           placeholderTextColor={Colors.white}
         />
       </View>
-      <View style={styles.container}>
-        <ScrollView horizontal={true} style={styles.labelStrip}>
-          {Constants.labels.map((item, index) => (
-            <Chip
-              textStyle={styles.chipText}
-              style={styles.chip}
-              mode="outlined"
-              key={index}
-              onPress={() => handleChipPress(item, index)}
-              selected={item === selectedChip}
-            >
-              {item}
-            </Chip>
-          ))}
-        </ScrollView>
-        <FlatList
-          onRefresh={() => {
-            setPage(1);
-          }}
-          refreshing={loading}
-          onEndReached={() => setPage(page + 1)}
-          onEndReachedThreshold={0.5}
-          data={data}
-          keyExtractor={(news) => news.publishedAt + news.title}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          renderItem={({ item }) => (
-            <Card
-              mode="outlined"
-              style={styles.card}
-              onPress={() => navigation.navigate("News", item)}
-            >
-              <Card.Cover
-                source={{ uri: item.urlToImage || Constants.sampleImage }}
-              />
-              <Card.Content>
-                <Text style={styles.cardTitle} variant="titleMedium">
-                  {item.title}
-                </Text>
-                <Text style={styles.cardSubtitle} variant="bodySmall">
-                  {item.description}
-                </Text>
-              </Card.Content>
-            </Card>
-          )}
-        />
-      </View>
+      {loading ? (
+        <View style={styles.indicator}>
+          <ActivityIndicator
+            animating={loading}
+            color={Colors.primary}
+            size="large"
+          />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <ScrollView horizontal={true} style={styles.labelStrip}>
+            {Constants.labels.map((item, index) => (
+              <Chip
+                textStyle={styles.chipText}
+                style={styles.chip}
+                mode="outlined"
+                key={index}
+                onPress={() => handleChipPress(item, index)}
+                selected={item === selectedChip}
+              >
+                {item}
+              </Chip>
+            ))}
+          </ScrollView>
+          <FlatList
+            onRefresh={() => {
+              getResult();
+            }}
+            refreshing={loading}
+            onEndReached={() => setPage(page + 1)}
+            onEndReachedThreshold={0.5}
+            data={data}
+            keyExtractor={(news) => news.publishedAt + news.title}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            renderItem={({ item }) => (
+              <Card
+                mode="outlined"
+                style={styles.card}
+                onPress={() => navigation.navigate("News", item)}
+              >
+                <Card.Cover
+                  source={{ uri: item.urlToImage || Constants.sampleImage }}
+                />
+                <Card.Content>
+                  <Text style={styles.cardTitle} variant="titleMedium">
+                    {item.title}
+                  </Text>
+                  <Text style={styles.cardSubtitle} variant="bodySmall">
+                    {item.description}
+                  </Text>
+                </Card.Content>
+              </Card>
+            )}
+          />
+        </View>
+      )}
     </Screen>
   );
 }
@@ -139,6 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   container: { flex: 1, paddingHorizontal: 10 },
+  indicator: { flex: 1, justifyContent: "center", alignItems: "center" },
   input: {
     fontFamily: "SemiBold",
     backgroundColor: Colors.primary,

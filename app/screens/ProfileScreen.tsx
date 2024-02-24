@@ -29,13 +29,7 @@ export function ProfileScreen() {
               style={{ color: Colors.white, fontFamily: "Black" }}
               variant="titleLarge"
             >
-              {user.name}
-            </Text>
-            <Text
-              style={{ color: Colors.white, fontFamily: "Regular" }}
-              variant="bodyMedium"
-            >
-              {user.email}
+              {user}
             </Text>
             <Button
               mode="contained"
