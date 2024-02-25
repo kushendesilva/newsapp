@@ -31,6 +31,11 @@ export const AuthStoreModel = types
           store.isAuthenticated = true;
 
           return { error: false, data: accountResponse.data };
+        } else if (response.problem === "NETWORK_ERROR") {
+          return {
+            error: true,
+            data: ["Network Error. Please try again later."],
+          };
         } else {
           const errors = response.data.errors;
           const errorMessages: any[] = [];
@@ -67,6 +72,11 @@ export const AuthStoreModel = types
           store.isAuthenticated = true;
 
           return { error: false, data: accountResponse.data };
+        } else if (response.problem === "NETWORK_ERROR") {
+          return {
+            error: true,
+            data: { title: "Network Error. Please try again later." },
+          };
         } else {
           return { error: true, data: response.data };
         }
