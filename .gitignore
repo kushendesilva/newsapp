@@ -35,3 +35,4 @@ yarn-error.*
 # test
 test.json
 .env
+eas.json
